@@ -1,14 +1,25 @@
 import { Container, Spinner, Alert, Row, Col, Button } from "react-bootstrap"
 import { useSelector } from "react-redux"
-import { Redirect } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { rootState } from "../redux"
 import { useQuery } from "react-query"
 import { useVote, useQuestion } from "../utils"
+import { LinkContainer } from "react-router-bootstrap"
+import { useEffect } from "react"
 
 export const HomeScreen = () => {
+  const history = useHistory()
   const { questionEnabled, setQuestionEnabled, fetchQuestion } = useQuestion()
   const { userInfo: user } = useSelector((state: rootState) => state.user)
   const { voting, voted, error, createVote, setVoting, setVoted } = useVote()
+
+  useEffect(() => {
+    if (!user._id) {
+      history.push("/login")
+    } else {
+      setQuestionEnabled(true)
+    }
+  }, [user, history, setQuestionEnabled])
 
   const {
     error: questionError,
@@ -37,6 +48,10 @@ export const HomeScreen = () => {
       return (
         <Alert variant="success">
           Vote recorded! Click{" "}
+          <LinkContainer to={`/questions/${questionData._id}`}>
+            <Alert.Link>here</Alert.Link>
+          </LinkContainer>{" "}
+          to view the full results, and{" "}
           <Alert.Link
             onClick={() => {
               setQuestionEnabled(true)
@@ -64,13 +79,15 @@ export const HomeScreen = () => {
           </Button>
         </Col>
         <Col className="d-flex flex-column col-6">
-          <Row className="d-flex justify-content-center">
+          <Row className="d-flex justify-content-center mb-1">
             <Button variant="primary" onClick={() => setQuestionEnabled(true)}>
               New question
             </Button>
           </Row>
-          <Row className="d-flex justify-content-center">
-            <Button variant="secondary">View results</Button>
+          <Row className="d-flex justify-content-center mt-1">
+            <LinkContainer to={`/questions/${questionData._id}`}>
+              <Button variant="secondary">View results</Button>
+            </LinkContainer>
           </Row>
         </Col>
         <Col className="d-flex justify-content-sm-end justify-content-center col-3">
@@ -80,10 +97,6 @@ export const HomeScreen = () => {
         </Col>
       </Row>
     )
-  }
-
-  if (!user._id) {
-    return <Redirect to="/login" />
   }
 
   return (

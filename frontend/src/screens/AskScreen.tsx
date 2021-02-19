@@ -34,7 +34,7 @@ export const AskScreen = () => {
     isLoading: askLoading,
     isSuccess: askSuccess,
     error: askError,
-  } = useQuery("askQuestion", askQuestion, { enabled: asking })
+  } = useQuery("askQuestion", askQuestion, { enabled: asking, cacheTime: 0 })
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -52,7 +52,9 @@ export const AskScreen = () => {
       <div className="d-flex justify-content-center">
         <Card className="col-md-6 offset-col-md-3">
           <Card.Body>
-            <p>Characters left: {200 - question.length}</p>
+            <p className={200 - question.length <= 10 ? "text-danger" : ""}>
+              Characters left: {200 - question.length}
+            </p>
 
             <Form onSubmit={submitHandler}>
               <Form.Group controlId="question">

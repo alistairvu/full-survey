@@ -15,13 +15,8 @@ export const useVote = () => {
         },
       }
 
-      const { data } = await axios.post(
-        `/api/questions/vote`,
-        { id, vote },
-        config
-      )
+      await axios.post(`/api/questions/vote`, { id, vote }, config)
       setVoted(true)
-      console.log(data)
     } catch (err) {
       console.log(err)
       setError(err.response.data.message as string)

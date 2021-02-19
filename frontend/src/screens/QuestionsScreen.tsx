@@ -1,33 +1,22 @@
 import { useState, useEffect } from "react"
 import { useQuery } from "react-query"
-import { Container, Spinner, Row } from "react-bootstrap"
+import { Container, Spinner, Row, Alert } from "react-bootstrap"
 import { useSelector } from "react-redux"
-import axios from "axios"
 import { rootState } from "../redux"
-import { Redirect } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { QuestionTable } from "../components"
-
-const fetchUserQuestions = async (id: string, token: string) => {
-  try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-
-    const { data } = await axios.get(`/api/users/${id}`, config)
-    const { questions } = data
-
-    return questions
-  } catch (err) {
-    throw new Error(err.response.data.message)
-  }
-}
+import { useDelete, fetchUserQuestions } from "../utils"
 
 export const QuestionsScreen = () => {
+  const history = useHistory()
   const [enabled, setEnabled] = useState(false)
   const [questions, setQuestions] = useState<any[]>()
+  const {
+    deleteHandler,
+    deleteError,
+    deleteProgress,
+    deleteSuccess,
+  } = useDelete()
 
   const { token, _id } = useSelector((state: rootState) => state.user.userInfo)
   const {
@@ -37,32 +26,36 @@ export const QuestionsScreen = () => {
     error: questionError,
   } = useQuery("fetchDetails", () => fetchUserQuestions(_id, token), {
     enabled,
+    cacheTime: 0,
   })
-
-  useEffect(() => {
-    if (questionSuccess) {
-      setQuestions(questionData)
-    }
-  }, [questionData, questionSuccess])
 
   useEffect(() => {
     if (token) {
       setEnabled(true)
+    } else {
+      history.push("/login")
     }
-  }, [token])
 
-  if (!token) {
-    return <Redirect to="/login" />
-  }
+    if (questionSuccess) {
+      setQuestions(questionData)
+    }
+  }, [questionData, questionSuccess, token, history])
 
   return (
     <Container className="mt-4">
       <h1>Questions</h1>
+      {deleteSuccess && <Alert variant="success">Question deleted!</Alert>}
+      {deleteError && <Alert variant="danger">{deleteError}</Alert>}
+      {deleteProgress && (
+        <Row className="d-flex justify-content-center my-1">
+          <Spinner animation="border" role="status" />
+        </Row>
+      )}
 
       <Row className="d-flex justify-content-center mt-4">
         {questionLoading && <Spinner animation="border" role="status" />}
         {!questionLoading && !questionError && questions && (
-          <QuestionTable questions={questions!} />
+          <QuestionTable questions={questions!} deleteHandler={deleteHandler} />
         )}
       </Row>
     </Container>

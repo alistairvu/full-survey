@@ -2,7 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 
 export const useQuestion = () => {
-  const [questionEnabled, setQuestionEnabled] = useState<boolean>(true)
+  const [questionEnabled, setQuestionEnabled] = useState<boolean>(false)
 
   const fetchQuestion = async (token: string) => {
     try {
