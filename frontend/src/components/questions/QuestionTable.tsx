@@ -1,5 +1,6 @@
 import { Table, Button } from "react-bootstrap"
 import { Link } from "react-router-dom"
+import { calculatePercent } from "../../utils"
 
 interface Question {
   _id: string
@@ -13,14 +14,6 @@ interface QuestionTableProps {
 }
 
 export const QuestionTable = ({ questions }: QuestionTableProps) => {
-  const calculatePercent = (upVotes: number, downVotes: number) => {
-    if (upVotes + downVotes === 0) {
-      return 0
-    }
-
-    return (upVotes / (upVotes + downVotes)) * 100
-  }
-
   return (
     <Table hover responsive>
       <thead>
