@@ -56,6 +56,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   })
 
   if (existingUser) {
+    console.log(existingUser)
     res.status(400).json({ message: "User already exists" })
     return
   }
@@ -69,7 +70,6 @@ export const registerUser = asyncHandler(async (req, res) => {
   })
 
   if (user) {
-    console.log(user)
     res.status(201).json({
       _id: user._id,
       name: user.name,

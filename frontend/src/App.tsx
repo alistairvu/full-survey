@@ -1,9 +1,42 @@
+import { Switch, Route } from "react-router-dom"
+import {
+  HomeScreen,
+  LoginScreen,
+  RegisterScreen,
+  QuestionsScreen,
+  AskScreen,
+} from "./screens"
+import { Header } from "./components"
+import React from "react"
+import { QueryClient, QueryClientProvider } from "react-query"
+
 const App = () => {
+  const queryClient = new QueryClient()
+
   return (
-    <div className="App">
-      <h1>Hello!</h1>
-      <h2>Start editing the App.tsx file to begin work on your app.</h2>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <Header />
+
+      <main>
+        <Switch>
+          <Route exact path="/">
+            <HomeScreen />
+          </Route>
+          <Route path="/login">
+            <LoginScreen />
+          </Route>
+          <Route path="/register">
+            <RegisterScreen />
+          </Route>
+          <Route path="/questions">
+            <QuestionsScreen />
+          </Route>
+          <Route path="/ask">
+            <AskScreen />
+          </Route>
+        </Switch>
+      </main>
+    </QueryClientProvider>
   )
 }
 
