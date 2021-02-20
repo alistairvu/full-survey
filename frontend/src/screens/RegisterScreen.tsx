@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory, Link } from "react-router-dom"
 import { registerUser, logoutUser } from "../redux/userSlice"
 import { rootState } from "../redux"
+import { Meta } from "../components"
 
 interface RegisterInterface {
   name: string
@@ -61,6 +62,7 @@ export const RegisterScreen = () => {
 
   return (
     <Container className="d-flex justify-content-center">
+      <Meta title="askme! | Register" />
       <Card style={{ marginTop: 10 }} className="col-md-6 offset-col-md-3">
         <Card.Body>
           <Card.Title>Sign Up</Card.Title>

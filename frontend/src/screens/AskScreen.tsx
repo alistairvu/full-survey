@@ -5,6 +5,7 @@ import { useQuery } from "react-query"
 import { rootState } from "../redux"
 import { Redirect } from "react-router-dom"
 import axios from "axios"
+import { Meta } from "../components"
 
 export const AskScreen = () => {
   const [question, setQuestion] = useState<string>("")
@@ -47,6 +48,7 @@ export const AskScreen = () => {
 
   return (
     <Container className="mt-4">
+      <Meta title="askme! | Ask" />
       <h1>Ask</h1>
 
       <div className="d-flex justify-content-center">

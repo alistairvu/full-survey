@@ -4,7 +4,7 @@ import { Container, Spinner, Row, Alert } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import { rootState } from "../redux"
 import { useHistory } from "react-router-dom"
-import { QuestionTable } from "../components"
+import { QuestionTable, Meta } from "../components"
 import { useDelete, fetchUserQuestions } from "../utils"
 
 export const QuestionsScreen = () => {
@@ -43,6 +43,7 @@ export const QuestionsScreen = () => {
 
   return (
     <Container className="mt-4">
+      <Meta title="askme! | Your Questions" />
       <h1>Questions</h1>
       {deleteSuccess && <Alert variant="success">Question deleted!</Alert>}
       {deleteError && <Alert variant="danger">{deleteError}</Alert>}

@@ -6,6 +6,7 @@ import { useQuery } from "react-query"
 import { useVote, useQuestion } from "../utils"
 import { LinkContainer } from "react-router-bootstrap"
 import { useEffect } from "react"
+import { Meta } from "../components"
 
 export const HomeScreen = () => {
   const history = useHistory()
@@ -100,6 +101,7 @@ export const HomeScreen = () => {
 
   return (
     <Container className="mt-5">
+      <Meta />
       {questionFetching && (
         <Container className="d-flex justify-content-center">
           <Spinner animation="border" role="status" />

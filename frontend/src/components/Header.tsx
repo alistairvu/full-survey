@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { rootState } from "../redux"
 import { logoutUser } from "../redux/userSlice"
+import { SearchBox } from "./SearchBox"
 
 export const Header = () => {
   const dispatch = useDispatch()
@@ -22,6 +23,8 @@ export const Header = () => {
           <LinkContainer to="/">
             <Navbar.Brand>askme!</Navbar.Brand>
           </LinkContainer>
+
+          <SearchBox />
           <Navbar.Toggle />
 
           <Navbar.Collapse>
@@ -29,11 +32,15 @@ export const Header = () => {
               {userInfo._id && (
                 <>
                   <LinkContainer to="/ask">
-                    <Nav.Link>Ask</Nav.Link>
+                    <Nav.Link>
+                      <i className="fas fa-question"></i> Ask
+                    </Nav.Link>
                   </LinkContainer>
 
                   <LinkContainer to="/browse">
-                    <Nav.Link>Browse</Nav.Link>
+                    <Nav.Link>
+                      <i className="fas fa-book-open"></i> Browse
+                    </Nav.Link>
                   </LinkContainer>
                 </>
               )}

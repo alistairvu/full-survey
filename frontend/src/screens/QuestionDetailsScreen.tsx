@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 import { rootState } from "../redux"
 import { Spinner, Alert, Container, Button, Col } from "react-bootstrap"
 import { useEffect } from "react"
-import { QuestionResult } from "../components"
+import { QuestionResult, Meta } from "../components"
 
 export const QuestionDetailsScreen = () => {
   const history = useHistory()
@@ -30,7 +30,7 @@ export const QuestionDetailsScreen = () => {
     return (
       <Container className="my-5">
         <Button variant="dark" onClick={() => history.goBack()}>
-          Return
+          <i className="fas fa-chevron-left"></i> Return
         </Button>
         <div className="d-flex justify-content-center my-1">
           <Spinner animation="border" role="status" />{" "}
@@ -43,7 +43,7 @@ export const QuestionDetailsScreen = () => {
     return (
       <Container className="my-5">
         <Button variant="dark" onClick={() => history.goBack()}>
-          Return
+          <i className="fas fa-chevron-left"></i> Return
         </Button>
         <div className="d-flex justify-content-center my-1">
           <Alert variant="danger">{questionError as string}</Alert>
@@ -54,8 +54,9 @@ export const QuestionDetailsScreen = () => {
 
   return (
     <Container className="my-5">
+      <Meta title={`askme! | ${questionData?.question}`} />
       <Button variant="dark" onClick={() => history.goBack()}>
-        Return
+        <i className="fas fa-chevron-left"></i> Return
       </Button>
 
       <Col className="my-3 d-flex flex-column align-items-center">

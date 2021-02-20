@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory, Link } from "react-router-dom"
 import { loginUser, logoutUser } from "../redux/userSlice"
 import { rootState } from "../redux"
-
+import { Meta } from "../components"
 interface LoginInterface {
   login: string
   password: string
@@ -46,6 +46,7 @@ export const LoginScreen = () => {
 
   return (
     <Container className="d-flex justify-content-center">
+      <Meta title="askme! | Log In" />
       <Card
         style={{ marginTop: 10, paddingBottom: 0 }}
         className="col-md-6 offset-col-md-3"
