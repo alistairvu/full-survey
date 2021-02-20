@@ -11,7 +11,7 @@ export const HomeScreen = () => {
   const history = useHistory()
   const { questionEnabled, setQuestionEnabled, fetchQuestion } = useQuestion()
   const { userInfo: user } = useSelector((state: rootState) => state.user)
-  const { voting, voted, error, createVote, setVoting, setVoted } = useVote()
+  const { voting, voted, error: voteError, createVote, setVoted } = useVote()
 
   useEffect(() => {
     if (!user._id) {
@@ -25,13 +25,12 @@ export const HomeScreen = () => {
     error: questionError,
     data: questionData,
     isFetching: questionFetching,
-  } = useQuery("fetchQuestion", () => fetchQuestion(user.token), {
+  } = useQuery("fetchQuestion", fetchQuestion, {
     enabled: questionEnabled,
     cacheTime: 0,
   })
 
   const voteHandler = (vote: "UP" | "DOWN") => {
-    setVoting(true)
     createVote(user.token, questionData._id, vote)
   }
 
@@ -65,7 +64,7 @@ export const HomeScreen = () => {
       )
     }
 
-    if (error) {
+    if (voteError) {
       return (
         <Alert variant="danger">An error occurred. Please try again.</Alert>
       )

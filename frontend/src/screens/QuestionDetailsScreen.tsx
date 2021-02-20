@@ -1,30 +1,30 @@
 import { useHistory, useParams } from "react-router-dom"
 import { useQuery } from "react-query"
-import { fetchQuestionById } from "../utils"
+import { fetchQuestionById, useVote } from "../utils"
 import { useSelector } from "react-redux"
 import { rootState } from "../redux"
 import { Spinner, Alert, Container, Button, Col } from "react-bootstrap"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { QuestionResult } from "../components"
 
 export const QuestionDetailsScreen = () => {
-  const [enabled, setEnabled] = useState(false)
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const { token } = useSelector((state: rootState) => state.user.userInfo)
+  const { voting, voted, error: voteError, createVote } = useVote()
 
   const {
     isLoading: questionLoading,
     error: questionError,
     data: questionData,
+    refetch: questionRefetch,
   } = useQuery("fetchQuestionById", () => fetchQuestionById(token, id), {
     cacheTime: 0,
-    enabled,
   })
 
   useEffect(() => {
-    setEnabled(true)
-  }, [])
+    questionRefetch()
+  }, [questionRefetch, id, voting])
 
   if (questionLoading) {
     return (
@@ -58,12 +58,34 @@ export const QuestionDetailsScreen = () => {
         Return
       </Button>
 
-      <Col className="my-5 d-flex flex-column align-items-center">
+      <Col className="my-3 d-flex flex-column align-items-center">
         <h2>{questionData?.question}</h2>
         <p>
           Asked by <strong>{questionData?.user.name}</strong>.
         </p>
       </Col>
+
+      {voteError && <Alert variant="danger">{voteError as string}</Alert>}
+
+      {voted ? (
+        voting ? (
+          <Spinner animation="border" role="status" />
+        ) : (
+          <Alert variant="success">Vote recorded!</Alert>
+        )
+      ) : (
+        <Container className="d-flex justify-content-center mb-2">
+          <Button variant="success" onClick={() => createVote(token, id, "UP")}>
+            UPVOTE
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => createVote(token, id, "DOWN")}
+          >
+            DOWNVOTE
+          </Button>
+        </Container>
+      )}
 
       <QuestionResult
         upVotes={questionData?.upVotes}

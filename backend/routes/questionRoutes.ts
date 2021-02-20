@@ -4,19 +4,16 @@ import {
   addQuestion,
   addVote,
   deleteQuestion,
-  getAllQuestions,
+  getQuestions,
   getQuestionById,
   getRandomQuestion,
 } from "../controllers/questionController"
 
 const router = express.Router()
 
-router.route("/").get(protect, getRandomQuestion).post(protect, addQuestion)
-router.route("/all").get(protect, getAllQuestions)
+router.route("/").get(getQuestions).post(protect, addQuestion)
+router.route("/random").get(getRandomQuestion)
 router.route("/vote").post(protect, addVote)
-router
-  .route("/:id")
-  .get(protect, getQuestionById)
-  .delete(protect, deleteQuestion)
+router.route("/:id").get(getQuestionById).delete(protect, deleteQuestion)
 
 export default router

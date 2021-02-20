@@ -6,6 +6,7 @@ import {
   QuestionsScreen,
   AskScreen,
   QuestionDetailsScreen,
+  BrowseScreen,
 } from "./screens"
 import { Header } from "./components"
 import React from "react"
@@ -34,6 +35,12 @@ const App = () => {
           </Route>
           <Route path="/questions/:id">
             <QuestionDetailsScreen />
+          </Route>
+          <Route exact path="/browse">
+            <BrowseScreen />
+          </Route>
+          <Route path="/browse/page/:page">
+            <BrowseScreen />
           </Route>
           <Route path="/ask">
             <AskScreen />

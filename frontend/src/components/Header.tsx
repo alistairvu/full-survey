@@ -27,9 +27,15 @@ export const Header = () => {
           <Navbar.Collapse>
             <Nav className="ml-auto">
               {userInfo._id && (
-                <LinkContainer to="/ask">
-                  <Nav.Link>Ask</Nav.Link>
-                </LinkContainer>
+                <>
+                  <LinkContainer to="/ask">
+                    <Nav.Link>Ask</Nav.Link>
+                  </LinkContainer>
+
+                  <LinkContainer to="/browse">
+                    <Nav.Link>Browse</Nav.Link>
+                  </LinkContainer>
+                </>
               )}
 
               {userInfo._id ? (

@@ -8,6 +8,7 @@ export const useVote = () => {
 
   const createVote = async (token: string, id: string, vote: "UP" | "DOWN") => {
     try {
+      setVoting(true)
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -26,5 +27,5 @@ export const useVote = () => {
     }
   }
 
-  return { createVote, voting, voted, error, setVoting, setVoted }
+  return { createVote, voting, voted, error, setVoted }
 }

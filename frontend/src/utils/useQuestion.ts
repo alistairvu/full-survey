@@ -4,16 +4,15 @@ import axios from "axios"
 export const useQuestion = () => {
   const [questionEnabled, setQuestionEnabled] = useState<boolean>(false)
 
-  const fetchQuestion = async (token: string) => {
+  const fetchQuestion = async () => {
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       }
 
-      const { data } = await axios.get(`/api/questions`, config)
+      const { data } = await axios.get(`/api/questions/random`, config)
       setQuestionEnabled(false)
       return data
     } catch (err) {

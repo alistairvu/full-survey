@@ -10,9 +10,23 @@ interface UserRequest extends Request {
 // SECTION: Get all questions
 // @route:  GET /api/questions/all
 // @access: Private
-export const getAllQuestions = asyncHandler(async (req, res) => {
-  const questions = await Question.find({})
-  return res.json(questions)
+export const getQuestions = asyncHandler(async (req, res) => {
+  const pageSize = 5
+  const page = Number(req.query.page) || 1
+
+  const keyword = req.query.keyword
+    ? {
+        question: { $regex: `${req.query.keyword}`, $options: "i" },
+      }
+    : {}
+
+  const count = await Question.countDocuments(keyword)
+  const questions = await Question.find(keyword)
+    .sort({ upVotes: -1, downVotes: -1 })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+
+  return res.json({ questions, page, pageCount: Math.ceil(count / pageSize) })
 })
 
 // SECTION: Get question by id

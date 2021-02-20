@@ -11,7 +11,7 @@ interface Question {
 
 interface QuestionTableProps {
   questions: Question[]
-  deleteHandler: (id: string) => void
+  deleteHandler?: (id: string) => void
 }
 
 export const QuestionTable = ({
@@ -27,7 +27,7 @@ export const QuestionTable = ({
             <th>UP</th>
             <th>DOWN</th>
             <th>PERCENT</th>
-            <th></th>
+            {deleteHandler && <th></th>}
           </tr>
         </thead>
         <tbody>
@@ -46,15 +46,17 @@ export const QuestionTable = ({
                 )}
                 %
               </td>
-              <td>
-                <Button
-                  variant="danger"
-                  className="btn-sm"
-                  onClick={() => deleteHandler(question._id)}
-                >
-                  <i className="fas fa-trash" />
-                </Button>
-              </td>
+              {deleteHandler && (
+                <td>
+                  <Button
+                    variant="danger"
+                    className="btn-sm"
+                    onClick={() => deleteHandler(question._id)}
+                  >
+                    <i className="fas fa-trash" />
+                  </Button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

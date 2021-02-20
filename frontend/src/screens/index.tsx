@@ -4,6 +4,7 @@ import { RegisterScreen } from "./RegisterScreen"
 import { QuestionsScreen } from "./QuestionsScreen"
 import { AskScreen } from "./AskScreen"
 import { QuestionDetailsScreen } from "./QuestionDetailsScreen"
+import { BrowseScreen } from "./BrowseScreen"
 
 export {
   HomeScreen,
@@ -12,4 +13,5 @@ export {
   QuestionsScreen,
   AskScreen,
   QuestionDetailsScreen,
+  BrowseScreen,
 }
