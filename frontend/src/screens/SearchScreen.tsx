@@ -39,7 +39,7 @@ export const SearchScreen = () => {
       )}
       {questionsData && (
         <Paginate
-          pageNumber={Number(page)}
+          pageNumber={Number(page || 1)}
           pageCount={questionsData.pageCount}
           keyword={keyword}
         />
