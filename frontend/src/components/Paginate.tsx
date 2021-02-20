@@ -10,7 +10,7 @@ interface PaginateProps {
 
 export const Paginate = ({
   pageCount,
-  pageNumber,
+  pageNumber = 1,
   isAdmin = false,
   keyword = "",
 }: PaginateProps) => {

@@ -60,7 +60,7 @@ export const QuestionDetailsScreen = () => {
       </Button>
 
       <Col className="my-3 d-flex flex-column align-items-center">
-        <h2>{questionData?.question}</h2>
+        <h2 className="text-center">{questionData?.question}</h2>
         <p>
           Asked by <strong>{questionData?.user.name}</strong>.
         </p>
