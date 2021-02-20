@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
+import { rootState } from "./index"
 
 export const loginUser = createAsyncThunk(
   "user/login",
@@ -58,6 +59,41 @@ export const registerUser = createAsyncThunk(
   }
 )
 
+export const changeInfo = createAsyncThunk(
+  "user/changeInfo",
+  async (
+    {
+      name,
+      username,
+      email,
+      password,
+    }: { name: string; username: string; email: string; password?: string },
+    thunkApi
+  ) => {
+    try {
+      const { user } = thunkApi.getState() as rootState
+      const { token, isAdmin, _id } = user.userInfo
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+
+      const { data } = await axios.put(
+        "/api/users",
+        { id: _id, name, username, email, password, isAdmin },
+        config
+      )
+
+      return data
+    } catch (err) {
+      return thunkApi.rejectWithValue(err.response.data.message)
+    }
+  }
+)
+
 const initialState = {
   loading: false,
   error: "",
@@ -71,6 +107,12 @@ const userSlice = createSlice({
 
   reducers: {
     logoutUser: () => initialState,
+    resetProfileChange: (state) => ({
+      ...state,
+      loading: false,
+      error: "",
+      success: false,
+    }),
   },
 
   extraReducers: (build) => {
@@ -98,9 +140,27 @@ const userSlice = createSlice({
       ...initialState,
       error: action.payload as string,
     }))
+
+    build.addCase(changeInfo.pending, (state) => ({
+      ...state,
+      loading: true,
+      error: "",
+      success: false,
+    }))
+    build.addCase(changeInfo.fulfilled, (_, action) => ({
+      ...initialState,
+      userInfo: action.payload,
+      success: true,
+    }))
+    build.addCase(changeInfo.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+      success: false,
+      error: action.payload as string,
+    }))
   },
 })
 
 const { actions, reducer: userReducer } = userSlice
-export const { logoutUser } = actions
+export const { logoutUser, resetProfileChange } = actions
 export default userReducer

@@ -6,6 +6,7 @@ import { AskScreen } from "./AskScreen"
 import { QuestionDetailsScreen } from "./QuestionDetailsScreen"
 import { BrowseScreen } from "./BrowseScreen"
 import { SearchScreen } from "./SearchScreen"
+import { ProfileScreen } from "./ProfileScreen"
 
 export {
   HomeScreen,
@@ -16,4 +17,5 @@ export {
   QuestionDetailsScreen,
   BrowseScreen,
   SearchScreen,
+  ProfileScreen,
 }

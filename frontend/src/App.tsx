@@ -8,6 +8,7 @@ import {
   QuestionDetailsScreen,
   BrowseScreen,
   SearchScreen,
+  ProfileScreen,
 } from "./screens"
 import { Header } from "./components"
 import React from "react"
@@ -33,6 +34,9 @@ const App = () => {
           </Route>
           <Route exact path="/questions">
             <QuestionsScreen />
+          </Route>
+          <Route exact path="/profile">
+            <ProfileScreen />
           </Route>
           <Route path="/questions/:id">
             <QuestionDetailsScreen />

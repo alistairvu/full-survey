@@ -51,6 +51,10 @@ export const Header = () => {
                     <NavDropdown.Item>Questions</NavDropdown.Item>
                   </LinkContainer>
 
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
                   </NavDropdown.Item>
