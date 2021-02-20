@@ -24,11 +24,11 @@ export const Header = () => {
             <Navbar.Brand>askme!</Navbar.Brand>
           </LinkContainer>
 
-          <SearchBox />
           <Navbar.Toggle />
 
           <Navbar.Collapse>
-            <Nav className="ml-auto">
+            <SearchBox />
+            <Nav className="ml-auto d-flex justify-content-center">
               {userInfo._id && (
                 <>
                   <LinkContainer to="/ask">

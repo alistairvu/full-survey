@@ -113,7 +113,7 @@ export const HomeScreen = () => {
 
       {!questionFetching && questionData && (
         <div>
-          <Row className="d-flex my-5 justify-content-center">
+          <Row className="d-flex my-5 justify-content-center text-center px-2">
             <h2>{questionData.question}</h2>
           </Row>
 

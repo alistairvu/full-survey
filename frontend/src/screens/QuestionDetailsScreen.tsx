@@ -69,11 +69,11 @@ export const QuestionDetailsScreen = () => {
       {voteError && <Alert variant="danger">{voteError as string}</Alert>}
 
       {voted ? (
-        voting ? (
+        <Alert variant="success">Vote recorded!</Alert>
+      ) : voting ? (
+        <Container className="d-flex justify-content-center mb-2">
           <Spinner animation="border" role="status" />
-        ) : (
-          <Alert variant="success">Vote recorded!</Alert>
-        )
+        </Container>
       ) : (
         <Container className="d-flex justify-content-center mb-2">
           <Button variant="success" onClick={() => createVote(token, id, "UP")}>
