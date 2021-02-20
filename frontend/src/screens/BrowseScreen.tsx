@@ -35,7 +35,7 @@ export const BrowseScreen = () => {
         </Container>
       )}
 
-      {questionsData && !questionsLoading && (
+      {questionsData && !questionsLoading && questionsData.questions && (
         <QuestionTable questions={questionsData.questions} />
       )}
       {questionsData && (

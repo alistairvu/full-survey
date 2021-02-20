@@ -18,6 +18,9 @@ const PORT = process.env.PORT || 6960
 app.use(express.json())
 app.use(cors())
 
+app.use("/api/users", userRoutes)
+app.use("/api/questions", questionRoutes)
+
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"))
 }
@@ -35,9 +38,6 @@ if (process.env.NODE_ENV === "production") {
     res.send("API is running...")
   })
 }
-
-app.use("/api/users", userRoutes)
-app.use("/api/questions", questionRoutes)
 
 app.listen(PORT, () =>
   console.log(`Experience the magic at http://localhost:${PORT}`)
