@@ -1,4 +1,4 @@
-import { Form, Button, Col } from "react-bootstrap"
+import { Form, Button } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
 import { useState } from "react"
 
