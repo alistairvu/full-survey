@@ -20,6 +20,7 @@
     "react-query": "^3.9.8"
   },
   "scripts": {
-    "start": "concurrently \"nodemon\" \"cd frontend && yarn start\""
+    "start": "nodemon",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd frontend && yarn && yarn run build && cd .."
   }
 }
