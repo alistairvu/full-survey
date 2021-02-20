@@ -40,7 +40,7 @@ export const BrowseScreen = () => {
       )}
       {questionsData && (
         <Paginate
-          pageNumber={questionsData.page}
+          pageNumber={Number(page)}
           pageCount={questionsData.pageCount}
         />
       )}
