@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react"
 import { Container, Card, Form, Spinner, Button, Alert } from "react-bootstrap"
-import { useDispatch, useSelector } from "react-redux"
 import { useHistory, Link } from "react-router-dom"
-import { loginUser, logoutUser } from "../redux/userSlice"
-import { rootState } from "../redux"
 import { Meta } from "../components"
+import useUserInfo from "../zustand/useUserInfo"
 interface LoginInterface {
   login: string
   password: string
@@ -16,18 +14,24 @@ export const LoginScreen = () => {
     password: "",
   })
 
-  const dispatch = useDispatch()
-  const { loading, success, error, userInfo } = useSelector(
-    (state: rootState) => state.user
-  )
+  const [loading, success, error, userInfo] = useUserInfo((state) => [
+    state.loading,
+    state.success,
+    state.error,
+    state.userInfo,
+  ])
+  const [loginUser, logoutUser] = useUserInfo((state) => [
+    state.loginUser,
+    state.logoutUser,
+  ])
 
   const history = useHistory()
 
   useEffect(() => {
     if (!userInfo._id) {
-      dispatch(logoutUser())
+      logoutUser()
     }
-  }, [dispatch, userInfo])
+  }, [userInfo, logoutUser])
 
   useEffect(() => {
     if (success) {
@@ -37,7 +41,7 @@ export const LoginScreen = () => {
 
   const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch(loginUser(loginInfo))
+    loginUser(loginInfo.login, loginInfo.password)
   }
 
   const formChangeHandler = (e: any) => {

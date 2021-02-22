@@ -1,17 +1,16 @@
 import { Container, Spinner, Alert, Row, Col, Button } from "react-bootstrap"
-import { useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { rootState } from "../redux"
 import { useQuery } from "react-query"
 import { useVote, useQuestion } from "../utils"
 import { LinkContainer } from "react-router-bootstrap"
 import { useEffect } from "react"
 import { Meta } from "../components"
+import useUserInfo from "../zustand/useUserInfo"
 
 export const HomeScreen = () => {
   const history = useHistory()
   const { questionEnabled, setQuestionEnabled, fetchQuestion } = useQuestion()
-  const { userInfo: user } = useSelector((state: rootState) => state.user)
+  const user = useUserInfo((state) => state.userInfo)
   const { voting, voted, error: voteError, createVote, setVoted } = useVote()
 
   useEffect(() => {
@@ -32,7 +31,7 @@ export const HomeScreen = () => {
   })
 
   const voteHandler = (vote: "UP" | "DOWN") => {
-    createVote(user.token, questionData._id, vote)
+    createVote(questionData._id, vote)
   }
 
   const generateButtons = () => {

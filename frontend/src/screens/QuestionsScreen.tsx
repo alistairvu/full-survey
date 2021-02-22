@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react"
 import { useQuery } from "react-query"
 import { Container, Spinner, Row, Alert } from "react-bootstrap"
-import { useSelector } from "react-redux"
-import { rootState } from "../redux"
 import { useHistory } from "react-router-dom"
 import { QuestionTable, Meta } from "../components"
 import { useDelete, fetchUserQuestions } from "../utils"
+import useUserInfo from "../zustand/useUserInfo"
 
 export const QuestionsScreen = () => {
   const history = useHistory()
@@ -18,7 +17,10 @@ export const QuestionsScreen = () => {
     deleteSuccess,
   } = useDelete()
 
-  const { token, _id } = useSelector((state: rootState) => state.user.userInfo)
+  const [token, _id] = useUserInfo((state) => [
+    state.userInfo.token,
+    state.userInfo._id,
+  ])
   const {
     isLoading: questionLoading,
     isSuccess: questionSuccess,

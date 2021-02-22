@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react"
 import { Container, Card, Form, Spinner, Button, Alert } from "react-bootstrap"
-import { useDispatch, useSelector } from "react-redux"
-import { changeInfo, resetProfileChange } from "../redux/userSlice"
-import { rootState } from "../redux"
 import { Meta } from "../components"
+import useUserInfo from "../zustand/useUserInfo"
 
 interface ProfileInterface {
   name: string
@@ -12,13 +10,21 @@ interface ProfileInterface {
 }
 
 export const ProfileScreen = () => {
-  const dispatch = useDispatch()
-  const {
+  const [
     userInfo,
-    loading: changeProfileLoading,
-    error: changeProfileError,
-    success: changeProfileSuccess,
-  } = useSelector((state: rootState) => state.user)
+    changeProfileLoading,
+    changeProfileError,
+    changeProfileSuccess,
+  ] = useUserInfo((state) => [
+    state.userInfo,
+    state.loading,
+    state.error,
+    state.success,
+  ])
+  const [resetProfileChange, changeInfo] = useUserInfo((state) => [
+    state.resetProfileChange,
+    state.changeInfo,
+  ])
 
   const [profileInfo, setProfileInfo] = useState<ProfileInterface>({
     name: userInfo.name,
@@ -32,18 +38,19 @@ export const ProfileScreen = () => {
 
   useEffect(() => {
     console.log("reset")
-    dispatch(resetProfileChange())
-  }, [dispatch])
+    resetProfileChange()
+  }, [resetProfileChange])
 
   const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setPasswordError("")
+    const { name, username, email } = profileInfo
 
     if (password === confirmPassword) {
       if (password.trim()) {
-        dispatch(changeInfo({ ...profileInfo, password }))
+        changeInfo(name, username, email, password)
       } else {
-        dispatch(changeInfo({ ...profileInfo }))
+        changeInfo(name, username, email)
       }
     } else {
       setPasswordError("Passwords do not match")

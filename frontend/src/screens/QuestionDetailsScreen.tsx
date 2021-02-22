@@ -1,16 +1,15 @@
 import { useHistory, useParams } from "react-router-dom"
 import { useQuery } from "react-query"
 import { fetchQuestionById, useVote } from "../utils"
-import { useSelector } from "react-redux"
-import { rootState } from "../redux"
 import { Spinner, Alert, Container, Button, Col } from "react-bootstrap"
 import { useEffect } from "react"
 import { QuestionResult, Meta } from "../components"
+import useUserInfo from "../zustand/useUserInfo"
 
 export const QuestionDetailsScreen = () => {
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
-  const { token } = useSelector((state: rootState) => state.user.userInfo)
+  const token = useUserInfo(({ userInfo }) => userInfo.token)
   const { voting, voted, error: voteError, createVote } = useVote()
 
   const {
@@ -76,13 +75,10 @@ export const QuestionDetailsScreen = () => {
         </Container>
       ) : (
         <Container className="d-flex justify-content-center mb-2">
-          <Button variant="success" onClick={() => createVote(token, id, "UP")}>
+          <Button variant="success" onClick={() => createVote(id, "UP")}>
             UPVOTE
           </Button>
-          <Button
-            variant="danger"
-            onClick={() => createVote(token, id, "DOWN")}
-          >
+          <Button variant="danger" onClick={() => createVote(id, "DOWN")}>
             DOWNVOTE
           </Button>
         </Container>

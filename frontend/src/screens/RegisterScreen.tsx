@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react"
 import { Container, Card, Form, Spinner, Button, Alert } from "react-bootstrap"
-import { useDispatch, useSelector } from "react-redux"
 import { useHistory, Link } from "react-router-dom"
-import { registerUser, logoutUser } from "../redux/userSlice"
-import { rootState } from "../redux"
 import { Meta } from "../components"
+import useUserInfo from "../zustand/useUserInfo"
 
 interface RegisterInterface {
   name: string
@@ -23,21 +21,29 @@ export const RegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("")
   const [passwordError, setPasswordError] = useState<string>("")
 
-  const dispatch = useDispatch()
-  const {
-    loading: registerLoading,
-    success: registerSuccess,
-    error: registerError,
+  const [
+    registerLoading,
+    registerSuccess,
+    registerError,
     userInfo,
-  } = useSelector((state: rootState) => state.user)
+  ] = useUserInfo((state) => [
+    state.loading,
+    state.success,
+    state.error,
+    state.userInfo,
+  ])
+  const [registerUser, logoutUser] = useUserInfo((state) => [
+    state.registerUser,
+    state.logoutUser,
+  ])
 
   const history = useHistory()
 
   useEffect(() => {
     if (!userInfo._id) {
-      dispatch(logoutUser())
+      logoutUser()
     }
-  }, [dispatch, userInfo])
+  }, [logoutUser, userInfo])
 
   useEffect(() => {
     if (registerSuccess) {
@@ -50,7 +56,8 @@ export const RegisterScreen = () => {
     setPasswordError("")
 
     if (password === confirmPassword) {
-      dispatch(registerUser({ ...registerInfo, password }))
+      const { name, username, email } = registerInfo
+      registerUser(name, username, email, password)
     } else {
       setPasswordError("Passwords do not match")
     }

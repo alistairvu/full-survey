@@ -1,12 +1,15 @@
 import { useState } from "react"
 import axios from "axios"
+import useUserInfo from "../zustand/useUserInfo"
 
 export const useVote = () => {
   const [voting, setVoting] = useState<boolean>(false)
   const [voted, setVoted] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
 
-  const createVote = async (token: string, id: string, vote: "UP" | "DOWN") => {
+  const token = useUserInfo((state) => state.userInfo.token)
+
+  const createVote = async (id: string, vote: "UP" | "DOWN") => {
     try {
       setVoting(true)
       const config = {

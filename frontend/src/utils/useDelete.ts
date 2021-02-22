@@ -1,14 +1,12 @@
 import axios from "axios"
 import { useState } from "react"
-import { useSelector } from "react-redux"
-import { rootState } from "../redux"
+import useUserInfo from "../zustand/useUserInfo"
 
 export const useDelete = () => {
   const [deleteSuccess, setDeleteSuccess] = useState(false)
   const [deleteProgress, setDeleteProgress] = useState(false)
   const [deleteError, setDeleteError] = useState("")
-
-  const { token } = useSelector((state: rootState) => state.user.userInfo)
+  const token = useUserInfo((state) => state.userInfo.token)
 
   const deleteQuestion = async (id: string) => {
     try {

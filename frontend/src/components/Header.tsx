@@ -1,18 +1,18 @@
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
-import { useSelector, useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { rootState } from "../redux"
-import { logoutUser } from "../redux/userSlice"
 import { SearchBox } from "./SearchBox"
+import useUserInfo from "../zustand/useUserInfo"
 
 export const Header = () => {
-  const dispatch = useDispatch()
-  const { userInfo } = useSelector((state: rootState) => state.user)
+  const [userInfo, logoutUser] = useUserInfo((state) => [
+    state.userInfo,
+    state.logoutUser,
+  ])
   const history = useHistory()
 
   const logoutHandler = () => {
-    dispatch(logoutUser())
+    logoutUser()
     history.push("/login")
   }
 

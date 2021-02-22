@@ -1,16 +1,15 @@
 import { useState } from "react"
 import { Container, Card, Form, Spinner, Alert, Button } from "react-bootstrap"
-import { useSelector } from "react-redux"
 import { useQuery } from "react-query"
-import { rootState } from "../redux"
 import { Redirect } from "react-router-dom"
 import axios from "axios"
 import { Meta } from "../components"
+import useUserInfo from "../zustand/useUserInfo"
 
 export const AskScreen = () => {
   const [question, setQuestion] = useState<string>("")
   const [asking, setAsking] = useState<boolean>(false)
-  const { token } = useSelector((state: rootState) => state.user.userInfo)
+  const token = useUserInfo((state) => state.userInfo.token)
 
   const askQuestion = async () => {
     try {
