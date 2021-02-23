@@ -1,13 +1,13 @@
 import { useState } from "react"
 import axios from "axios"
-import useUserInfo from "../zustand/useUserInfo"
+import Cookies from "js-cookie"
 
 export const useVote = () => {
   const [voting, setVoting] = useState<boolean>(false)
   const [voted, setVoted] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
 
-  const token = useUserInfo((state) => state.userInfo.token)
+  const token = Cookies.get("token")
 
   const createVote = async (id: string, vote: "UP" | "DOWN") => {
     try {

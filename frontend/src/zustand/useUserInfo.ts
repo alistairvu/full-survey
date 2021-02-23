@@ -1,7 +1,7 @@
 import create, { State } from "zustand"
 import { persist, devtools } from "zustand/middleware"
 import axios from "axios"
-
+import Cookies from "js-cookie"
 interface UserInterface {
   _id: string
   name: string
@@ -47,7 +47,10 @@ const useUserInfo = create<UserInfoState>(
       (set, get) => ({
         ...initialState,
 
-        logoutUser: () => set(initialState),
+        logoutUser: () => {
+          set(initialState)
+          Cookies.remove("token")
+        },
 
         resetProfileChange: () =>
           set((state) => ({
@@ -72,7 +75,10 @@ const useUserInfo = create<UserInfoState>(
               config
             )
 
-            set(() => ({ ...initialState, success: true, userInfo: data }))
+            const { token, ...userInfo } = data
+            Cookies.set("token", token)
+
+            set(() => ({ ...initialState, success: true, userInfo }))
           } catch (err) {
             set(() => ({ ...initialState, error: err.response.data.message }))
           }
@@ -98,7 +104,10 @@ const useUserInfo = create<UserInfoState>(
               config
             )
 
-            set(() => ({ ...initialState, success: true, userInfo: data }))
+            const { token, ...userInfo } = data
+            Cookies.set("token", token)
+
+            set(() => ({ ...initialState, success: true, userInfo }))
           } catch (err) {
             set(() => ({ ...initialState, error: err.response.data.message }))
           }
@@ -118,7 +127,8 @@ const useUserInfo = create<UserInfoState>(
             }))
 
             const userInfo = get().userInfo
-            const { token, isAdmin, _id } = userInfo
+            const { isAdmin, _id } = userInfo
+            const token = Cookies.get("token")
 
             const config = {
               headers: {

@@ -1,6 +1,7 @@
 import axios from "axios"
+import Cookies from "js-cookie"
 
-export const fetchQuestionById = async (token: string, id: string) => {
+export const fetchQuestionById = async (id: string) => {
   try {
     const config = {
       headers: {
@@ -15,8 +16,9 @@ export const fetchQuestionById = async (token: string, id: string) => {
   }
 }
 
-export const fetchUserQuestions = async (id: string, token: string) => {
+export const fetchUserQuestions = async (id: string) => {
   try {
+    const token = Cookies.get("token")
     const config = {
       headers: {
         "Content-Type": "application/json",

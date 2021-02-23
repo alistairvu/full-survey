@@ -4,12 +4,12 @@ import { useQuery } from "react-query"
 import { Redirect } from "react-router-dom"
 import axios from "axios"
 import { Meta } from "../components"
-import useUserInfo from "../zustand/useUserInfo"
+import Cookies from "js-cookie"
 
 export const AskScreen = () => {
   const [question, setQuestion] = useState<string>("")
   const [asking, setAsking] = useState<boolean>(false)
-  const token = useUserInfo((state) => state.userInfo.token)
+  const token = Cookies.get("token")
 
   const askQuestion = async () => {
     try {

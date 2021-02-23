@@ -4,12 +4,10 @@ import { fetchQuestionById, useVote } from "../utils"
 import { Spinner, Alert, Container, Button, Col } from "react-bootstrap"
 import { useEffect } from "react"
 import { QuestionResult, Meta } from "../components"
-import useUserInfo from "../zustand/useUserInfo"
 
 export const QuestionDetailsScreen = () => {
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
-  const token = useUserInfo(({ userInfo }) => userInfo.token)
   const { voting, voted, error: voteError, createVote } = useVote()
 
   const {
@@ -17,7 +15,7 @@ export const QuestionDetailsScreen = () => {
     error: questionError,
     data: questionData,
     refetch: questionRefetch,
-  } = useQuery("fetchQuestionById", () => fetchQuestionById(token, id), {
+  } = useQuery("fetchQuestionById", () => fetchQuestionById(id), {
     cacheTime: 0,
   })
 

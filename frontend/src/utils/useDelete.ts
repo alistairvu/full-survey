@@ -1,12 +1,12 @@
 import axios from "axios"
 import { useState } from "react"
-import useUserInfo from "../zustand/useUserInfo"
+import Cookies from "js-cookie"
 
 export const useDelete = () => {
   const [deleteSuccess, setDeleteSuccess] = useState(false)
   const [deleteProgress, setDeleteProgress] = useState(false)
   const [deleteError, setDeleteError] = useState("")
-  const token = useUserInfo((state) => state.userInfo.token)
+  const token = Cookies.get("token")
 
   const deleteQuestion = async (id: string) => {
     try {

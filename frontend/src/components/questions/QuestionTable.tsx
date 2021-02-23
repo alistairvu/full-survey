@@ -1,7 +1,6 @@
 import { Table, Button } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { calculatePercent } from "../../utils"
-
 interface Question {
   _id: string
   question: string
