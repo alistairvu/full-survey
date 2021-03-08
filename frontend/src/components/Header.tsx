@@ -27,7 +27,7 @@ export const Header = () => {
           <Navbar.Toggle />
 
           <Navbar.Collapse>
-            <SearchBox />
+            {userInfo._id && <SearchBox />}
             <Nav className="ml-auto d-flex justify-content-center">
               {userInfo._id && (
                 <>

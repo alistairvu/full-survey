@@ -1,4 +1,4 @@
-import { Form, Button } from "react-bootstrap"
+import { Form, Button, InputGroup, FormControl } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
 import { useState } from "react"
 
@@ -17,7 +17,7 @@ export const SearchBox = () => {
 
   return (
     <Form onSubmit={submitHandler} className="ml-sm-5 row px-3 d-flex" inline>
-      <Form.Control
+      {/* <Form.Control
         type="text"
         name="query"
         value={keyword}
@@ -27,7 +27,21 @@ export const SearchBox = () => {
       />
       <Button variant="light" type="submit">
         <i className="fas fa-search"></i> Search
-      </Button>
+      </Button> */}
+      <InputGroup>
+        <FormControl
+          type="text"
+          name="query"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          placeholder="Search..."
+        />
+        <InputGroup.Append>
+          <Button variant="primary" type="submit">
+            Search
+          </Button>
+        </InputGroup.Append>
+      </InputGroup>
     </Form>
   )
 }
