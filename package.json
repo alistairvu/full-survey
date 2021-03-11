@@ -4,6 +4,10 @@
   "main": "./backend/server.ts",
   "author": "Alistair Vu <alistairvu@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "ts-node": "9.1.1",
+    "yarn": "1.22.5"
+  },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.10",
